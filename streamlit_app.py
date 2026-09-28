@@ -89,6 +89,9 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+for counter_key in ("cheer_balloons", "cheer_parent_mode", "cheer_parenting_page"):
+    st.session_state.setdefault(counter_key, 0)
+
 
 def render_home():
     st.markdown('<div class="intro-kicker">기술 교사 · 불광중학교</div>', unsafe_allow_html=True)
@@ -102,12 +105,16 @@ def render_home():
     cheer_col, parent_col, _ = st.columns([1.2, 1.35, 4.5])
     with cheer_col:
         if st.button("응원 풍선 보내기", icon=":material/celebration:", width="stretch"):
+            st.session_state["cheer_balloons"] += 1
             st.balloons()
             st.toast("양은선 선생님에게 응원을 보냈어요!", icon=":material/favorite:")
+        st.metric("풍선 응원", f"{st.session_state['cheer_balloons']}회", help="현재 접속 세션 기준")
     with parent_col:
         if st.button("육아 모드 응원하기", icon=":material/child_care:", width="stretch"):
+            st.session_state["cheer_parent_mode"] += 1
             st.snow()
             st.toast("오늘도 멋지게 해내는 중!", icon=":material/star:")
+        st.metric("육아 모드 응원", f"{st.session_state['cheer_parent_mode']}회", help="현재 접속 세션 기준")
 
     st.divider()
     st.markdown("### 양은선을 소개합니다")
@@ -291,8 +298,10 @@ def render_parenting():
             "- 계획대로 되지 않아도 오늘을 무사히 보내기"
         )
     if st.button("작은 응원 받기", icon=":material/favorite:"):
+        st.session_state["cheer_parenting_page"] += 1
         st.snow()
         st.toast("지금도 충분히 잘하고 있어요.", icon=":material/child_care:")
+    st.metric("작은 응원 누적", f"{st.session_state['cheer_parenting_page']}회", help="현재 접속 세션 기준")
     st.feedback("thumbs", key="parenting_feedback")
 
 
