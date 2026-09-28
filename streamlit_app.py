@@ -16,8 +16,8 @@ st.markdown(
     @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
 
     .stApp {
-        background-color: #f4f7f3;
-        background-image: radial-gradient(#dce7df 0.7px, transparent 0.7px);
+        background-color: var(--background-color);
+        background-image: radial-gradient(color-mix(in srgb, var(--primary-color) 10%, transparent) 0.7px, transparent 0.7px);
         background-size: 22px 22px;
     }
     .block-container {
@@ -32,33 +32,33 @@ st.markdown(
     h1 {
         font-family: 'Gowun Batang', serif;
         font-size: 3.7rem !important;
-        color: #173c38;
+        color: var(--text-color);
         line-height: 1.2 !important;
         animation: arrive 650ms ease-out both;
     }
-    h2, h3 { color: #173c38; }
+    h2, h3 { color: var(--text-color); }
     .intro-kicker {
-        color: #d2674c;
+        color: var(--primary-color);
         font-size: 0.82rem;
         font-weight: 700;
         letter-spacing: 0.08em;
         animation: arrive 450ms ease-out both;
     }
     .intro-copy {
-        color: #38514b;
+        color: var(--text-color);
         font-size: 1.15rem;
         line-height: 1.9;
         max-width: 720px;
         animation: arrive 800ms ease-out both;
     }
     .fact-label {
-        color: #d2674c;
+        color: var(--primary-color);
         font-size: 0.82rem;
         font-weight: 700;
         margin-bottom: 0.3rem;
     }
     .fact-value {
-        color: #173c38;
+        color: var(--text-color);
         font-family: 'Gowun Batang', serif;
         font-size: 1.4rem;
         font-weight: 700;
