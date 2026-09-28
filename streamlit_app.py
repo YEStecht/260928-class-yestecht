@@ -1,210 +1,146 @@
-import pandas as pd
 import streamlit as st
 
 
 st.set_page_config(
-    page_title="Streamlit 요소 탐험실",
-    page_icon=":material/widgets:",
+    page_title="양은선 | 기술 교사",
+    page_icon=":material/school:",
     layout="wide",
 )
 
+st.markdown(
+    """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
 
-@st.cache_data
-def get_sample_data():
-    """Create a small, self-contained dataset for the component examples."""
-    data = pd.DataFrame(
-        [
-            {"작업": "랜딩 페이지 개선", "팀": "디자인", "상태": "진행 중", "우선순위": "높음", "진척도": 72, "마감일": "2026-10-02", "위도": 37.5665, "경도": 126.9780},
-            {"작업": "API 문서 정리", "팀": "플랫폼", "상태": "완료", "우선순위": "보통", "진척도": 100, "마감일": "2026-09-24", "위도": 35.1796, "경도": 129.0756},
-            {"작업": "모바일 QA", "팀": "품질", "상태": "진행 중", "우선순위": "높음", "진척도": 48, "마감일": "2026-10-06", "위도": 37.4563, "경도": 126.7052},
-            {"작업": "월간 회고", "팀": "운영", "상태": "대기", "우선순위": "낮음", "진척도": 10, "마감일": "2026-10-09", "위도": 36.3504, "경도": 127.3845},
-            {"작업": "검색 기능 시안", "팀": "디자인", "상태": "완료", "우선순위": "보통", "진척도": 100, "마감일": "2026-09-29", "위도": 35.8714, "경도": 128.6014},
-            {"작업": "접근성 점검", "팀": "품질", "상태": "대기", "우선순위": "높음", "진척도": 0, "마감일": "2026-10-12", "위도": 33.4996, "경도": 126.5312},
-            {"작업": "배포 자동화", "팀": "플랫폼", "상태": "진행 중", "우선순위": "높음", "진척도": 64, "마감일": "2026-10-04", "위도": 36.6424, "경도": 127.4890},
-            {"작업": "사용자 인터뷰", "팀": "운영", "상태": "완료", "우선순위": "보통", "진척도": 100, "마감일": "2026-09-26", "위도": 35.1595, "경도": 126.8526},
-        ]
-    )
-    data["마감일"] = pd.to_datetime(data["마감일"])
-    return data
-
-
-sample_data = get_sample_data()
-
-with st.sidebar:
-    st.title(":material/tune: 보기 설정")
-    st.caption("앱에 포함된 샘플 작업 데이터를 사용합니다")
-    st.divider()
-    selected_teams = st.multiselect(
-        "팀 필터",
-        options=sample_data["팀"].unique().tolist(),
-        default=sample_data["팀"].unique().tolist(),
-    )
-    selected_statuses = st.multiselect(
-        "상태 필터",
-        options=["진행 중", "대기", "완료"],
-        default=["진행 중", "대기", "완료"],
-    )
-    minimum_progress = st.slider("최소 진척도", 0, 100, 0, step=10, format="%d%%")
-    show_map = st.toggle("지도 표시", value=True)
-
-filtered_data = sample_data[
-    sample_data["팀"].isin(selected_teams)
-    & sample_data["상태"].isin(selected_statuses)
-    & (sample_data["진척도"] >= minimum_progress)
-].copy()
-
-st.title(":material/widgets: Streamlit 요소 탐험실")
-st.markdown("차트, 데이터 표시, 입력 위젯, 레이아웃과 알림을 한 페이지에서 살펴보세요.")
-st.caption("모든 화면은 앱에 포함된 샘플 프로젝트 데이터로 동작합니다.")
-st.divider()
-
-overview_tab, data_tab, widgets_tab, display_tab = st.tabs(
-    ["현황", "데이터", "입력 위젯", "표현 요소"]
+    .stApp {
+        background-color: #f4f7f3;
+        background-image: radial-gradient(#dce7df 0.7px, transparent 0.7px);
+        background-size: 22px 22px;
+    }
+    .block-container {
+        max-width: 1080px;
+        padding-top: 3.2rem;
+        padding-bottom: 4rem;
+    }
+    h1, h2, h3, p, button, label {
+        font-family: 'Noto Sans KR', sans-serif;
+        letter-spacing: 0;
+    }
+    h1 {
+        font-family: 'Gowun Batang', serif;
+        font-size: 4rem !important;
+        color: #173c38;
+        line-height: 1.2 !important;
+        animation: arrive 700ms ease-out both;
+    }
+    h2, h3 {
+        color: #173c38;
+    }
+    .intro-kicker {
+        color: #d2674c;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        animation: arrive 500ms ease-out both;
+    }
+    .intro-copy {
+        color: #38514b;
+        font-size: 1.18rem;
+        line-height: 1.9;
+        max-width: 680px;
+        animation: arrive 850ms ease-out both;
+    }
+    .section-note {
+        color: #586b65;
+        font-size: 1.02rem;
+        line-height: 1.9;
+    }
+    .fact-label {
+        color: #d2674c;
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+    }
+    .fact-value {
+        color: #173c38;
+        font-family: 'Gowun Batang', serif;
+        font-size: 1.45rem;
+        font-weight: 700;
+    }
+    [data-testid='stImage'] img {
+        border-radius: 4px;
+        animation: arrive 900ms ease-out both;
+    }
+    div.stButton > button {
+        border-radius: 4px;
+        min-height: 2.8rem;
+        font-weight: 600;
+    }
+    @keyframes arrive {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 640px) {
+        .block-container { padding-top: 2rem; }
+        h1 { font-size: 3rem !important; }
+        .intro-copy { font-size: 1.05rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+        }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
 )
 
-with overview_tab:
-    st.header("프로젝트 현황", divider="gray")
-    metric_columns = st.columns(4)
-    total_tasks = len(filtered_data)
-    completed_tasks = int((filtered_data["상태"] == "완료").sum())
-    average_progress = filtered_data["진척도"].mean() if total_tasks else 0
-    metric_columns[0].metric("표시 작업", f"{total_tasks}", delta="필터 적용")
-    metric_columns[1].metric("완료", f"{completed_tasks}", delta=f"전체 {len(sample_data)}개 중")
-    metric_columns[2].metric("평균 진척도", f"{average_progress:.0f}%", delta="현재 선택 기준")
-    metric_columns[3].metric("참여 팀", f"{filtered_data['팀'].nunique()}", delta="개 팀")
+st.markdown('<div class="intro-kicker">기술 교사 · 불광중학교</div>', unsafe_allow_html=True)
+st.title("양은선")
+st.markdown(
+    '<p class="intro-copy">안녕하세요. 불광중학교에서 기술을 가르치는 양은선입니다.<br>'
+    '교실에서는 함께 만들고 배우고, 집에서는 돌쟁이 아기와 함께 하루하루 자라는 중입니다.</p>',
+    unsafe_allow_html=True,
+)
 
-    chart_column, progress_column = st.columns([3, 2])
-    with chart_column:
-        st.subheader("팀별 작업 현황")
-        if filtered_data.empty:
-            st.info("조건에 맞는 작업이 없습니다.")
-        else:
-            team_summary = filtered_data.groupby("팀", as_index=False)["진척도"].mean()
-            st.bar_chart(team_summary, x="팀", y="진척도")
-    with progress_column:
-        st.subheader("작업별 진척도")
-        if filtered_data.empty:
-            st.info("표시할 진척도가 없습니다.")
-        else:
-            progress_data = filtered_data[["작업", "진척도"]].set_index("작업")
-            st.area_chart(progress_data)
+cheer_col, baby_col, _ = st.columns([1.3, 1.45, 5])
+with cheer_col:
+    if st.button("응원 풍선 보내기", icon=":material/celebration:", width="stretch"):
+        st.balloons()
+        st.toast("양은선 선생님에게 응원을 보냈어요!", icon=":material/favorite:")
+with baby_col:
+    if st.button("육아 모드 응원하기", icon=":material/child_care:", width="stretch"):
+        st.snow()
+        st.toast("오늘도 멋지게 해내는 중!", icon=":material/star:")
 
-    if show_map:
-        st.subheader("팀 위치")
-        if filtered_data.empty:
-            st.info("지도에 표시할 작업이 없습니다.")
-        else:
-            st.map(filtered_data.rename(columns={"위도": "latitude", "경도": "longitude"}))
+st.divider()
 
-    with st.expander("현황 요약 보기"):
-        st.write(f"선택한 조건의 작업은 **{total_tasks}개**이며 평균 진척도는 **{average_progress:.0f}%**입니다.")
-
-with data_tab:
-    st.header("데이터 표시와 다운로드", divider="gray")
-    st.write(f"필터 결과 **{len(filtered_data)}행**")
-    edited_data = st.data_editor(
-        filtered_data.drop(columns=["위도", "경도"]),
+photo_col, story_col = st.columns([1.05, 1], gap="large", vertical_alignment="center")
+with photo_col:
+    st.image(
+        "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85",
+        caption="수업의 영감이 되는 교실의 풍경",
         width="stretch",
-        hide_index=True,
-        num_rows="dynamic",
-        column_config={
-            "진척도": st.column_config.ProgressColumn("진척도", min_value=0, max_value=100, format="%d%%"),
-            "마감일": st.column_config.DateColumn("마감일", format="YYYY-MM-DD"),
-            "상태": st.column_config.SelectboxColumn("상태", options=["대기", "진행 중", "완료"]),
-        },
     )
-    st.download_button(
-        "현재 표 CSV 다운로드",
-        data=edited_data.to_csv(index=False).encode("utf-8-sig"),
-        file_name="sample_tasks.csv",
-        mime="text/csv",
-        icon=":material/download:",
+with story_col:
+    st.markdown("### 교실에서, 집에서")
+    st.markdown(
+        '<p class="section-note">기술 시간에는 아이디어를 손으로 만들어 보는 즐거움을 나눕니다. '
+        '집에서는 돌쟁이 아기와 처음 만나는 것들을 함께 배우고 있어요. '
+        '서로 다른 두 공간에서 매일 조금씩 성장하는 중입니다.</p>',
+        unsafe_allow_html=True,
     )
-    with st.expander("기본 표와 요약 통계"):
-        st.table(filtered_data[["작업", "팀", "상태", "진척도"]].head(5))
-        if not filtered_data.empty:
-            st.json({"작업 수": total_tasks, "완료 수": completed_tasks, "팀": sorted(filtered_data["팀"].unique())})
 
-with widgets_tab:
-    st.header("입력 위젯 모음", divider="gray")
-    st.write("각 입력을 바꾸면 선택한 값이 앱에 반영됩니다.")
-    left_column, right_column = st.columns(2)
+st.divider()
+st.markdown("### 양은선을 소개합니다")
+info_col1, info_col2, info_col3 = st.columns(3, gap="large")
+with info_col1:
+    st.markdown('<div class="fact-label">담당 과목</div><div class="fact-value">기술</div>', unsafe_allow_html=True)
+with info_col2:
+    st.markdown('<div class="fact-label">근무 학교</div><div class="fact-value">불광중학교</div>', unsafe_allow_html=True)
+with info_col3:
+    st.markdown('<div class="fact-label">요즘의 나</div><div class="fact-value">돌쟁이 아기와 성장 중</div>', unsafe_allow_html=True)
 
-    with left_column:
-        st.subheader("선택과 값 입력")
-        st.segmented_control("화면 모드", ["요약", "상세", "비교"], default="요약", key="demo_segment")
-        st.selectbox("담당 팀", sample_data["팀"].unique(), key="demo_selectbox")
-        st.radio("정렬 순서", ["마감일순", "진척도순", "우선순위순"], horizontal=True, key="demo_radio")
-        st.select_slider("만족도", ["낮음", "보통", "높음", "매우 높음"], value="높음", key="demo_select_slider")
-        st.number_input("목표 작업 수", min_value=1, max_value=100, value=12, key="demo_number")
-        st.color_picker("강조 색상", value="#168C86", key="demo_color")
-
-    with right_column:
-        st.subheader("텍스트와 일정")
-        st.text_input("검색어", placeholder="작업 이름", key="demo_text")
-        st.text_area("메모", placeholder="간단한 메모를 입력하세요", key="demo_text_area")
-        st.date_input("기준 날짜", key="demo_date")
-        st.time_input("알림 시각", key="demo_time")
-        st.slider("강조 진척도", 0, 100, 60, key="demo_slider")
-        st.checkbox("완료 항목 포함", value=True, key="demo_checkbox")
-        st.toggle("알림 사용", value=False, key="demo_toggle")
-
-    st.file_uploader("CSV 파일 선택", type=["csv"], key="demo_file")
-    st.camera_input("사진 촬영 또는 업로드", key="demo_camera")
-
-    with st.form("demo_form", border=True):
-        st.subheader("폼 입력 후 한 번에 제출")
-        form_title = st.text_input("요청 제목", value="새 작업 요청", key="form_title")
-        form_priority = st.selectbox("우선순위", ["낮음", "보통", "높음"], key="form_priority")
-        st.text_area("요청 내용", key="form_details")
-        form_submitted = st.form_submit_button("요청 등록", type="primary", icon=":material/check:")
-    if form_submitted:
-        st.success(f"'{form_title}' 요청을 등록했습니다. 우선순위: {form_priority}")
-
-    action_column, popup_column = st.columns(2)
-    with action_column:
-        if st.button("토스트 알림 표시", icon=":material/notifications:"):
-            st.toast("작업이 완료되었습니다", icon=":material/check_circle:")
-    with popup_column:
-        with st.popover("추가 옵션", icon=":material/settings:"):
-            st.write("팝오버 안의 콘텐츠")
-            st.toggle("간결한 보기", key="demo_compact")
-
-with display_tab:
-    st.header("텍스트와 상태 표시", divider="gray")
-    st.markdown("**Markdown** · 제목, 목록, 링크와 서식을 넣을 수 있습니다.")
-    st.markdown("- 안내와 도움말\n- [Streamlit 문서](https://docs.streamlit.io/)")
-    st.caption("caption으로 출처나 짧은 보조 설명을 표시합니다.")
-    st.divider()
-
-    message_column, status_column = st.columns(2)
-    with message_column:
-        st.success("성공 메시지")
-        st.info("정보 안내")
-        st.warning("주의 메시지")
-        st.error("오류 메시지 예시")
-    with status_column:
-        st.progress(68, text="작업 진행률")
-        with st.status("작업 상태 확인", expanded=True) as status:
-            st.write("입력 확인 중")
-            st.write("결과 준비 완료")
-            status.update(label="완료", state="complete", expanded=False)
-        if st.button("로딩 표시 체험", key="spinner_button"):
-            with st.spinner("처리 중..."):
-                st.write("처리가 끝났습니다.")
-
-    st.subheader("코드, JSON, 수식")
-    code_column, json_column = st.columns(2)
-    with code_column:
-        st.code("st.metric('완료 작업', 8, delta='2개 증가')", language="python")
-    with json_column:
-        st.json({"project": "sample", "tasks": len(filtered_data), "teams": sorted(filtered_data["팀"].unique())})
-    st.latex(r"진척률 = \frac{완료한\ 작업}{전체\ 작업} \times 100")
-
-    with st.container(border=True):
-        st.subheader("컨테이너 안의 콘텐츠")
-        st.write("컨테이너는 관련된 요소를 한 영역에 묶을 때 사용합니다.")
-        st.feedback("thumbs", key="demo_feedback")
-
-    if st.button("임시 영역 비우기"):
-        st.empty()
+st.divider()
+st.caption("오늘도 교실과 집에서, 작은 발견을 모으는 중입니다.")
